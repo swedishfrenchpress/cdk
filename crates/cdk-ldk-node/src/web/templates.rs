@@ -242,32 +242,30 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                     /* Hero section styling */
                     header {
                         position: relative;
-                        background-image: url('/static/images/bg.jpg');
+                        background-image: url('/static/images/bg.jpg?v=3');
                         background-size: cover;
                         background-position: center;
                         background-repeat: no-repeat;
                         border-bottom: 1px solid hsl(var(--border));
-                        padding: 4rem 0;
                         margin-bottom: 3rem;
                         text-align: center;
+                        width: 100%;
+                        height: 400px; /* Fixed height for better proportion */
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                     }
                     
-                    /* Dark overlay for better text readability */
-                    header::before {
-                        content: '';
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        bottom: 0;
-                        background: rgba(0, 0, 0, 0.4);
-                        z-index: 1;
-                    }
-                    
-                    /* Ensure text is above the overlay */
+                    /* Ensure text is positioned properly */
                     header .container {
-                        position: relative;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
                         z-index: 2;
+                        width: 100%;
+                        max-width: 1200px;
+                        padding: 0 2rem;
                     }
                     
                     h1 {
@@ -275,24 +273,26 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                         font-weight: 700;
                         line-height: 1.1;
                         letter-spacing: -0.02em;
-                        color: #ffffff;
+                        color: #000000;
                         margin-bottom: 1rem;
-                        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
                     }
                     
                     .subtitle {
                         font-size: 1.25rem;
-                        color: #ffffff;
+                        color: #333333;
                         font-weight: 400;
                         max-width: 600px;
                         margin: 0 auto;
                         line-height: 1.6;
-                        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
                     }
                     
                     @media (max-width: 768px) {
                         header {
-                            padding: 3rem 0;
+                            height: 300px; /* Smaller height on mobile */
+                        }
+                        
+                        header .container {
+                            padding: 0 1rem;
                         }
                         
                         h1 {
@@ -1294,8 +1294,10 @@ pub fn info_card_with_copy(title: &str, items: Vec<(&str, String)>) -> Markup {
                 div class="info-item" {
                     span class="info-label" { (label) ":" }
                     @if label == "Node ID" {
-                        span class="info-value" style="word-break: break-all; font-family: monospace;" { (value) }
-                        button class="copy-button" data-copy=(value) onclick="navigator.clipboard.writeText(this.getAttribute('data-copy')).then(() => { this.textContent = 'Copied!'; setTimeout(() => this.textContent = 'Copy', 2000); })" { "Copy" }
+                        div style="display: flex; align-items: center; gap: 0.5rem; justify-content: flex-end;" {
+                            span class="info-value" style="word-break: break-all; font-family: monospace; text-align: right; flex: 1;" { (value) }
+                            button class="copy-button" data-copy=(value) onclick="navigator.clipboard.writeText(this.getAttribute('data-copy')).then(() => { this.textContent = 'Copied!'; setTimeout(() => this.textContent = 'Copy', 2000); })" { "Copy" }
+                        }
                     } @else {
                         span class="info-value" { (value) }
                     }

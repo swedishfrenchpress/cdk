@@ -240,6 +240,8 @@ pub async fn dashboard(State(state): State<AppState>) -> Result<Html<String>, St
     let metrics = calculate_usage_metrics(&all_payments);
 
     let content = html! {
+        h2 style="text-align: center; margin-bottom: 3rem;" { "Dashboard" }
+        
         // Quick Actions moved to top - horizontal layout
         div class="card" style="margin-bottom: 2rem;" {
             h2 { "Quick Actions" }
@@ -335,11 +337,7 @@ pub async fn dashboard(State(state): State<AppState>) -> Result<Html<String>, St
                     div class="metric-label" { "All-time On-chain Outflow" }
                 }
             }
-            div style="margin-top: 1rem; text-align: center;" {
-                a href="/payments" {
-                    button { "View Full Payment History" }
-                }
-            }
+
         }
     };
 
@@ -398,73 +396,96 @@ pub async fn balance_page(State(state): State<AppState>) -> Result<Html<String>,
 
     let content = if channels.is_empty() {
         html! {
+            h2 style="text-align: center; margin-bottom: 3rem;" { "Lightning" }
+            
+            // Quick Actions section - matching dashboard style
+            div class="card" style="margin-bottom: 2rem;" {
+                h2 { "Quick Actions" }
+                div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;" {
+                    a href="/channels/open" style="text-decoration: none; flex: 1; min-width: 200px;" {
+                        button class="button-primary" style="width: 100%;" { "Open Channel" }
+                    }
+                    a href="/invoices" style="text-decoration: none; flex: 1; min-width: 200px;" {
+                        button class="button-primary" style="width: 100%;" { "Create Invoice" }
+                    }
+                    a href="/payments/send" style="text-decoration: none; flex: 1; min-width: 200px;" {
+                        button class="button-primary" style="width: 100%;" { "Make Lightning Payment" }
+                    }
+                }
+            }
+
+            // Balance Information as metric cards
             div class="card" {
-                h2 { "Lightning Channels" }
-
-                // Quick Actions moved to the top
-                div style="margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;" {
-                    h3 { "Quick Actions" }
-                    div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;" {
-                        a href="/channels/open" style="text-decoration: none;" {
-                            button class="button-primary" style="width: 100%;" { "Open Channel" }
-                        }
-                        a href="/invoices" style="text-decoration: none;" {
-                            button class="button-primary" style="width: 100%;" { "Create Invoice" }
-                        }
-                        a href="/payments/send" style="text-decoration: none;" {
-                            button class="button-primary" style="width: 100%;" { "Make Lightning Payment" }
-                        }
+                h2 { "Balance Information" }
+                div class="metrics-container" {
+                    div class="metric-card" {
+                        div class="metric-value" { (format_sats_as_btc(balances.total_lightning_balance_sats)) }
+                        div class="metric-label" { "Lightning Balance" }
+                    }
+                    div class="metric-card" {
+                        div class="metric-value" { (format!("{}", num_active_channels + num_inactive_channels)) }
+                        div class="metric-label" { "Total Channels" }
+                    }
+                    div class="metric-card" {
+                        div class="metric-value" { (format!("{}", num_active_channels)) }
+                        div class="metric-label" { "Active Channels" }
+                    }
+                    div class="metric-card" {
+                        div class="metric-value" { (format!("{}", num_inactive_channels)) }
+                        div class="metric-label" { "Inactive Channels" }
                     }
                 }
+            }
 
-                // Balance information
-                (balance_card(
-                    "Balance Information",
-                    vec![
-                        ("Total Lightning Balance", format_sats_as_btc(balances.total_lightning_balance_sats)),
-                        ("Active Channels", format!("{} / {}", num_active_channels, num_active_channels + num_inactive_channels)),
-                    ]
-                ))
-
+            div class="card" {
                 p { "No channels found. Create your first channel to start using Lightning Network." }
-
-                // Add Open New Channel button at the bottom of the card
-                div style="margin-top: 1rem; border-top: 1px solid #eee; padding-top: 1rem;" {
-                    a href="/channels/open" {
-                        button { "Open New Channel" }
-                    }
-                }
             }
         }
     } else {
         html! {
-            div class="card" {
-                h2 { "Lightning Channels" }
-
-                // Quick Actions moved to the top
-                div style="margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;" {
-                    h3 { "Quick Actions" }
-                    div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;" {
-                        a href="/channels/open" style="text-decoration: none;" {
-                            button class="button-primary" style="width: 100%;" { "Open Channel" }
-                        }
-                        a href="/invoices" style="text-decoration: none;" {
-                            button class="button-primary" style="width: 100%;" { "Create Invoice" }
-                        }
-                        a href="/payments/send" style="text-decoration: none;" {
-                            button class="button-primary" style="width: 100%;" { "Make Lightning Payment" }
-                        }
+            h2 style="text-align: center; margin-bottom: 3rem;" { "Lightning" }
+            
+            // Quick Actions section - matching dashboard style
+            div class="card" style="margin-bottom: 2rem;" {
+                h2 { "Quick Actions" }
+                div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;" {
+                    a href="/channels/open" style="text-decoration: none; flex: 1; min-width: 200px;" {
+                        button class="button-primary" style="width: 100%;" { "Open Channel" }
+                    }
+                    a href="/invoices" style="text-decoration: none; flex: 1; min-width: 200px;" {
+                        button class="button-primary" style="width: 100%;" { "Create Invoice" }
+                    }
+                    a href="/payments/send" style="text-decoration: none; flex: 1; min-width: 200px;" {
+                        button class="button-primary" style="width: 100%;" { "Make Lightning Payment" }
                     }
                 }
+            }
 
-                // Balance information
-                (balance_card(
-                    "Balance Information",
-                    vec![
-                        ("Total Lightning Balance", format_sats_as_btc(balances.total_lightning_balance_sats)),
-                        ("Active Channels", format!("{} / {}", num_active_channels, num_active_channels + num_inactive_channels)),
-                    ]
-                ))
+            // Balance Information as metric cards
+            div class="card" {
+                h2 { "Balance Information" }
+                div class="metrics-container" {
+                    div class="metric-card" {
+                        div class="metric-value" { (format_sats_as_btc(balances.total_lightning_balance_sats)) }
+                        div class="metric-label" { "Lightning Balance" }
+                    }
+                    div class="metric-card" {
+                        div class="metric-value" { (format!("{}", num_active_channels + num_inactive_channels)) }
+                        div class="metric-label" { "Total Channels" }
+                    }
+                    div class="metric-card" {
+                        div class="metric-value" { (format!("{}", num_active_channels)) }
+                        div class="metric-label" { "Active Channels" }
+                    }
+                    div class="metric-card" {
+                        div class="metric-value" { (format!("{}", num_inactive_channels)) }
+                        div class="metric-label" { "Inactive Channels" }
+                    }
+                }
+            }
+
+            div class="card" {
+                h2 { "Channel Details" }
 
                 // Channels list
                 @for channel in &channels {
@@ -511,12 +532,6 @@ pub async fn balance_page(State(state): State<AppState>) -> Result<Html<String>,
                     }
                 }
 
-                // Add Open New Channel button at the bottom of the card
-                div style="margin-top: 1rem; border-top: 1px solid #eee; padding-top: 1rem;" {
-                    a href="/channels/open" {
-                        button { "Open New Channel" }
-                    }
-                }
             }
         }
     };
@@ -543,6 +558,7 @@ pub async fn onchain_page(
         .unwrap_or("overview");
 
     let mut content = html! {
+        h2 style="text-align: center; margin-bottom: 3rem;" { "On-chain" }
         // Balance overview for onchain
         (balance_card(
             "On-chain Balance",
@@ -997,6 +1013,7 @@ pub async fn post_close_channel(
 
 pub async fn invoices_page(State(_state): State<AppState>) -> Result<Html<String>, StatusCode> {
     let content = html! {
+        h2 style="text-align: center; margin-bottom: 3rem;" { "Invoices" }
         div class="grid" {
             (form_card(
                 "Create BOLT11 Invoice",
@@ -1296,6 +1313,7 @@ pub async fn payments_page(
     };
 
     let content = html! {
+        h2 style="text-align: center; margin-bottom: 3rem;" { "Payments" }
         div class="card" {
             div class="payment-list-header" {
                 h2 { "Payment History" }
@@ -1455,6 +1473,7 @@ pub async fn send_payments_page(
     State(_state): State<AppState>,
 ) -> Result<Html<String>, StatusCode> {
     let content = html! {
+        h2 style="text-align: center; margin-bottom: 3rem;" { "Send Payment" }
         div class="grid" {
             (form_card(
                 "Pay BOLT11 Invoice",
