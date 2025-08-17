@@ -259,19 +259,37 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                         font-weight: 400;
                     }
                     
+                    /* Modern Navigation Bar Styling */
                     nav {
-                        background-color: hsl(var(--background));
+                        background-color: hsl(var(--card));
+                        border-top: 1px solid hsl(var(--border));
                         border-bottom: 1px solid hsl(var(--border));
-                        padding: 0;
+                        border-left: none;
+                        border-right: none;
+                        border-radius: 0;
+                        padding: 0.75rem;
                         margin-bottom: 2rem;
+                    }
+                    
+                    nav .container {
+                        padding: 0;
+                        display: flex;
+                        justify-content: center;
                     }
                     
                     nav ul {
                         list-style: none;
                         display: flex;
-                        gap: 0;
+                        gap: 0.5rem;
                         overflow-x: auto;
                         -webkit-overflow-scrolling: touch;
+                        margin: 0;
+                        padding: 0;
+                        justify-content: center;
+                    }
+                    
+                    nav li {
+                        flex-shrink: 0;
                     }
                     
                     nav a {
@@ -280,18 +298,29 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                         justify-content: center;
                         white-space: nowrap;
                         text-decoration: none;
-                        font-size: 0.875rem;
-                        font-weight: 500;
+                        font-size: 1rem;
+                        font-weight: 600;
                         color: hsl(var(--muted-foreground));
-                        padding: 0.75rem 1rem;
-                        border-bottom: 2px solid transparent;
-                        transition: color 150ms ease-in-out, border-color 150ms ease-in-out;
+                        padding: 1rem 1.5rem;
+                        border-radius: calc(var(--radius) - 2px);
+                        transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+                        position: relative;
+                        min-height: 3rem;
                     }
                     
-                    nav a:hover,
-                    nav a.active {
+                    nav a:hover {
                         color: hsl(var(--foreground));
-                        border-bottom-color: hsl(var(--primary));
+                        background-color: hsl(var(--muted));
+                    }
+                    
+                    nav a.active {
+                        color: hsl(var(--primary-foreground));
+                        background-color: hsl(var(--primary));
+                        font-weight: 700;
+                    }
+                    
+                    nav a.active:hover {
+                        background-color: hsl(var(--primary) / 0.9);
                     }
                     
                     .card {

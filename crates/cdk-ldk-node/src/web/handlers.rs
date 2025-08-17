@@ -240,7 +240,23 @@ pub async fn dashboard(State(state): State<AppState>) -> Result<Html<String>, St
     let metrics = calculate_usage_metrics(&all_payments);
 
     let content = html! {
-        // First row with node info, balance, and quick actions
+        // Quick Actions moved to top - horizontal layout
+        div class="card" style="margin-bottom: 2rem;" {
+            h2 { "Quick Actions" }
+            div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;" {
+                a href="/channels/open" style="text-decoration: none; flex: 1; min-width: 200px;" {
+                    button class="button-primary" style="width: 100%;" { "Open Channel" }
+                }
+                a href="/invoices" style="text-decoration: none; flex: 1; min-width: 200px;" {
+                    button class="button-primary" style="width: 100%;" { "Create Invoice" }
+                }
+                a href="/payments/send" style="text-decoration: none; flex: 1; min-width: 200px;" {
+                    button class="button-primary" style="width: 100%;" { "Make Lightning Payment" }
+                }
+            }
+        }
+
+        // Node info and balance in grid layout
         div class="grid" {
             (info_card_with_copy(
                 "Node Information",
@@ -262,30 +278,6 @@ pub async fn dashboard(State(state): State<AppState>) -> Result<Html<String>, St
                     ("Combined Total", format_sats_as_btc(balances.total_lightning_balance_sats + balances.total_onchain_balance_sats)),
                 ]
             ))
-
-            div class="card" {
-                h2 { "Quick Actions" }
-                div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;" {
-                    a href="/balance" style="text-decoration: none;" {
-                        button style="width: 100%;" { "Lightning Balance" }
-                    }
-                    a href="/onchain" style="text-decoration: none;" {
-                        button style="width: 100%;" { "On-chain Balance" }
-                    }
-                    a href="/channels/open" style="text-decoration: none;" {
-                        button style="width: 100%;" { "Open Channel" }
-                    }
-                    a href="/invoices" style="text-decoration: none;" {
-                        button style="width: 100%;" { "Create Invoice" }
-                    }
-                    a href="/payments/send" style="text-decoration: none;" {
-                        button style="width: 100%;" { "Make Lightning Payment" }
-                    }
-                    a href="/payments" style="text-decoration: none;" {
-                        button style="width: 100%;" { "Payment History" }
-                    }
-                }
-            }
         }
 
         // Second row with payment activity taking full width
@@ -313,7 +305,7 @@ pub async fn dashboard(State(state): State<AppState>) -> Result<Html<String>, St
             }
             div style="margin-top: 1rem; text-align: center;" {
                 a href="/payments" {
-                    button style="width: 100%;" { "View Full Payment History" }
+                    button { "View Full Payment History" }
                 }
             }
         }
@@ -381,17 +373,14 @@ pub async fn balance_page(State(state): State<AppState>) -> Result<Html<String>,
                 div style="margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;" {
                     h3 { "Quick Actions" }
                     div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;" {
+                        a href="/channels/open" style="text-decoration: none;" {
+                            button class="button-primary" style="width: 100%;" { "Open Channel" }
+                        }
                         a href="/invoices" style="text-decoration: none;" {
-                            button style="width: 100%;" { "Create Lightning Invoice" }
+                            button class="button-primary" style="width: 100%;" { "Create Invoice" }
                         }
                         a href="/payments/send" style="text-decoration: none;" {
-                            button style="width: 100%;" { "Make Lightning Payment" }
-                        }
-                        a href="/channels/open" style="text-decoration: none;" {
-                            button style="width: 100%;" { "Open New Channel" }
-                        }
-                        a href="/onchain" style="text-decoration: none;" {
-                            button style="width: 100%;" { "View On-chain Balance" }
+                            button class="button-primary" style="width: 100%;" { "Make Lightning Payment" }
                         }
                     }
                 }
@@ -410,7 +399,7 @@ pub async fn balance_page(State(state): State<AppState>) -> Result<Html<String>,
                 // Add Open New Channel button at the bottom of the card
                 div style="margin-top: 1rem; border-top: 1px solid #eee; padding-top: 1rem;" {
                     a href="/channels/open" {
-                        button style="width: 100%;" { "Open New Channel" }
+                        button { "Open New Channel" }
                     }
                 }
             }
@@ -424,17 +413,14 @@ pub async fn balance_page(State(state): State<AppState>) -> Result<Html<String>,
                 div style="margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;" {
                     h3 { "Quick Actions" }
                     div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;" {
+                        a href="/channels/open" style="text-decoration: none;" {
+                            button class="button-primary" style="width: 100%;" { "Open Channel" }
+                        }
                         a href="/invoices" style="text-decoration: none;" {
-                            button style="width: 100%;" { "Create Lightning Invoice" }
+                            button class="button-primary" style="width: 100%;" { "Create Invoice" }
                         }
                         a href="/payments/send" style="text-decoration: none;" {
-                            button style="width: 100%;" { "Make Lightning Payment" }
-                        }
-                        a href="/channels/open" style="text-decoration: none;" {
-                            button style="width: 100%;" { "Open New Channel" }
-                        }
-                        a href="/onchain" style="text-decoration: none;" {
-                            button style="width: 100%;" { "View On-chain Balance" }
+                            button class="button-primary" style="width: 100%;" { "Make Lightning Payment" }
                         }
                     }
                 }
@@ -496,7 +482,7 @@ pub async fn balance_page(State(state): State<AppState>) -> Result<Html<String>,
                 // Add Open New Channel button at the bottom of the card
                 div style="margin-top: 1rem; border-top: 1px solid #eee; padding-top: 1rem;" {
                     a href="/channels/open" {
-                        button style="width: 100%;" { "Open New Channel" }
+                        button { "Open New Channel" }
                     }
                 }
             }
@@ -1402,17 +1388,17 @@ pub async fn payments_page(
                 }
             }
 
-            // Per-page selector (bottom)
+            // Compact per-page selector integrated with pagination
             @if total_count > 0 {
-                div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee; display: flex; justify-content: center; align-items: center; gap: 0.5rem;" {
-                    label for="per-page" style="font-size: 0.9rem; color: #6c757d;" { "Show:" }
-                    select id="per-page" onchange="changePage()" style="padding: 0.25rem; font-size: 0.9rem; border: 1px solid #dee2e6; border-radius: 4px;" {
+                div class="per-page-selector" {
+                    label for="per-page" { "Show:" }
+                    select id="per-page" onchange="changePage()" {
                         option value="10" selected[per_page == 10] { "10" }
                         option value="25" selected[per_page == 25] { "25" }
                         option value="50" selected[per_page == 50] { "50" }
                         option value="100" selected[per_page == 100] { "100" }
                     }
-                    span style="font-size: 0.9rem; color: #6c757d;" { "payments per page" }
+                    span { "per page" }
                 }
             }
         }
