@@ -267,13 +267,13 @@ pub async fn dashboard(State(state): State<AppState>) -> Result<Html<String>, St
 
         // Node Information - new layout based on Figma design
         section class="node-info-section" {
-            div class="node-info-container" {
+            div class="node-info-main-container" {
                 // Left side - Node avatar and info
                 div class="node-info-left" {
-                    div class="node-avatar-container" {
+                    div class="node-avatar" {
                         img src="/static/images/nut.png" alt="Node Avatar" class="avatar-image";
                     }
-                    div class="node-details-container" {
+                    div class="node-details" {
                         h2 class="node-name" { (alias.clone()) }
                         p class="node-address" { 
                             "Listening Address: " 

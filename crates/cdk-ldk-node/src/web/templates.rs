@@ -1194,11 +1194,16 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                         align-items: flex-start;
                     }
                     
-                    .node-info-container {
+                    .node-info-main-container {
                         flex: 1;
                         display: flex;
                         flex-direction: column;
                         gap: 1rem;
+                        background-color: hsl(var(--card));
+                        border: 1px solid hsl(var(--border));
+                        border-radius: var(--radius);
+                        padding: 1.5rem;
+                        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
                     }
                     
                     .node-info-left {
@@ -1208,7 +1213,7 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                         margin-bottom: 1rem;
                     }
                     
-                    .node-avatar-container {
+                    .node-avatar {
                         flex-shrink: 0;
                         background-color: hsl(var(--muted) / 0.3);
                         border: 1px solid hsl(var(--border));
@@ -1229,13 +1234,9 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                         display: block;
                     }
                     
-                    .node-details-container {
+                    .node-details {
                         flex: 1;
                         min-width: 0;
-                        background-color: hsl(var(--card));
-                        border: 1px solid hsl(var(--border));
-                        border-radius: var(--radius);
-                        padding: 1rem;
                     }
                     
                     .node-name {
@@ -1297,11 +1298,11 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                             gap: 0.75rem;
                         }
                         
-                        .node-avatar-container {
+                        .node-avatar {
                             align-self: center;
                         }
                         
-                        .node-details-container {
+                        .node-details {
                             text-align: center;
                             width: 100%;
                         }
@@ -1331,7 +1332,7 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                             gap: 0.5rem;
                         }
                         
-                        .node-avatar-container {
+                        .node-avatar {
                             width: 64px;
                             height: 64px;
                             padding: 0.5rem;
