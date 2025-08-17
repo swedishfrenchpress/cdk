@@ -54,8 +54,8 @@ where
 }
 
 use crate::web::templates::{
-    balance_card, error_message, form_card, format_msats_as_btc, format_sats_as_btc, info_card,
-    info_card_with_copy, layout, payment_list_item, success_message, usage_metrics_card,
+    error_message, form_card, format_msats_as_btc, format_sats_as_btc, info_card,
+    layout, payment_list_item, success_message,
 };
 use crate::CdkLdkNode;
 
@@ -194,7 +194,7 @@ fn calculate_usage_metrics(payments: &[ldk_node::payment::PaymentDetails]) -> Us
 pub async fn dashboard(State(state): State<AppState>) -> Result<Html<String>, StatusCode> {
     let node = &state.node.inner;
 
-    let node_id = node.node_id().to_string();
+    let _node_id = node.node_id().to_string();
     let alias = node
         .node_alias()
         .map(|a| a.to_string())
@@ -265,17 +265,46 @@ pub async fn dashboard(State(state): State<AppState>) -> Result<Html<String>, St
             }
         }
 
-        // Node Information - full width
-        (info_card_with_copy(
-            "Node Information",
-            vec![
-                ("Node ID", node_id),
-                ("Alias", alias),
-                ("Listening Addresses", listening_addresses.join(", ")),
-                ("Connected Peers", format!("{num_connected_peers} / {num_peers}")),
-                ("Active Channels", format!("{} / {}", num_active_channels, num_active_channels + num_inactive_channels)),
-            ]
-        ))
+        // Node Information - new layout based on Figma design
+        section class="node-info-section" {
+            div class="node-info-container" {
+                // Left side - Node avatar and info
+                div class="node-info-left" {
+                    div class="node-avatar" {
+                        img src="/static/images/nut.png" alt="Node Avatar" class="avatar-image";
+                    }
+                    div class="node-details" {
+                        h2 class="node-name" { (alias.clone()) }
+                        p class="node-address" { 
+                            "Listening Address: " 
+                            (listening_addresses.first().unwrap_or(&"127.0.0.1:8090".to_string()))
+                        }
+                    }
+                }
+                
+                // Middle - Gray container (empty for now)
+                div class="node-content-box" {
+                    // Empty container for future content
+                }
+            }
+            
+            // Right side - Connections metrics
+            aside class="node-metrics" {
+                div class="card" {
+                    h3 { "Connections" }
+                    div class="metrics-container" {
+                        div class="metric-card" {
+                            div class="metric-value" { (format!("{}/{}", num_connected_peers, num_peers)) }
+                            div class="metric-label" { "Connected Peers" }
+                        }
+                        div class="metric-card" {
+                            div class="metric-value" { (format!("{}/{}", num_active_channels, num_active_channels + num_inactive_channels)) }
+                            div class="metric-label" { "Active Channels" }
+                        }
+                    }
+                }
+            }
+        }
 
         // Lightning Network Activity as metric cards
         div class="card" {

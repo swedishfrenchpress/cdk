@@ -1186,6 +1186,162 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                         }
                     }
                     
+                    /* Node Information Section Styling */
+                    .node-info-section {
+                        display: flex;
+                        gap: 1.5rem;
+                        margin-bottom: 1.5rem;
+                        align-items: flex-start;
+                    }
+                    
+                    .node-info-container {
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 1rem;
+                    }
+                    
+                    .node-info-left {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        margin-bottom: 1rem;
+                    }
+                    
+                    .node-avatar {
+                        flex-shrink: 0;
+                    }
+                    
+                    .avatar-image {
+                        width: 48px;
+                        height: 48px;
+                        border-radius: var(--radius);
+                        object-fit: cover;
+                        border: 1px solid hsl(var(--border));
+                    }
+                    
+                    .node-details {
+                        flex: 1;
+                        min-width: 0;
+                    }
+                    
+                    .node-name {
+                        font-size: var(--fs-title);
+                        font-weight: var(--fw-semibold);
+                        color: var(--fg-primary);
+                        margin: 0 0 0.25rem 0;
+                        line-height: var(--lh-tight);
+                    }
+                    
+                    .node-address {
+                        font-size: 0.875rem;
+                        color: var(--fg-muted);
+                        margin: 0;
+                        line-height: var(--lh-normal);
+                    }
+                    
+                    .node-content-box {
+                        background-color: hsl(var(--muted) / 0.3);
+                        border: 1px solid hsl(var(--border));
+                        border-radius: var(--radius);
+                        min-height: 200px;
+                        padding: 1.5rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: hsl(var(--muted-foreground));
+                    }
+                    
+                    .node-metrics {
+                        flex-shrink: 0;
+                        width: 280px;
+                    }
+                    
+                    .node-metrics .card {
+                        margin-bottom: 0;
+                    }
+                    
+                    .node-metrics .metrics-container {
+                        flex-direction: column;
+                        margin: 1rem 0 0 0;
+                    }
+                    
+                    .node-metrics .metric-card {
+                        min-width: auto;
+                    }
+                    
+                    /* Mobile responsive design for node info */
+                    @media (max-width: 768px) {
+                        .node-info-section {
+                            flex-direction: column;
+                            gap: 1rem;
+                        }
+                        
+                        .node-info-left {
+                            flex-direction: column;
+                            align-items: flex-start;
+                            text-align: center;
+                            gap: 0.75rem;
+                        }
+                        
+                        .node-avatar {
+                            align-self: center;
+                        }
+                        
+                        .node-details {
+                            text-align: center;
+                            width: 100%;
+                        }
+                        
+                        .node-content-box {
+                            min-height: 150px;
+                            padding: 1rem;
+                        }
+                        
+                        .node-metrics {
+                            width: 100%;
+                        }
+                        
+                        .node-metrics .metrics-container {
+                            flex-direction: row;
+                            flex-wrap: wrap;
+                        }
+                        
+                        .node-metrics .metric-card {
+                            flex: 1;
+                            min-width: 120px;
+                        }
+                    }
+                    
+                    @media (max-width: 480px) {
+                        .node-info-left {
+                            gap: 0.5rem;
+                        }
+                        
+                        .avatar-image {
+                            width: 40px;
+                            height: 40px;
+                        }
+                        
+                        .node-name {
+                            font-size: 1.125rem;
+                        }
+                        
+                        .node-address {
+                            font-size: 0.8125rem;
+                        }
+                        
+                        .node-content-box {
+                            min-height: 120px;
+                            padding: 0.75rem;
+                        }
+                        
+                        .node-metrics .metrics-container {
+                            flex-direction: column;
+                            gap: 0.75rem;
+                        }
+                    }
+
                     /* Responsive typography adjustments */
                     @media (max-width: 640px) {
                         :root {
