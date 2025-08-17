@@ -270,10 +270,10 @@ pub async fn dashboard(State(state): State<AppState>) -> Result<Html<String>, St
             div class="node-info-container" {
                 // Left side - Node avatar and info
                 div class="node-info-left" {
-                    div class="node-avatar" {
+                    div class="node-avatar-container" {
                         img src="/static/images/nut.png" alt="Node Avatar" class="avatar-image";
                     }
-                    div class="node-details" {
+                    div class="node-details-container" {
                         h2 class="node-name" { (alias.clone()) }
                         p class="node-address" { 
                             "Listening Address: " 
