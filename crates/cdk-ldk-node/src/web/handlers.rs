@@ -291,28 +291,49 @@ pub async fn dashboard(State(state): State<AppState>) -> Result<Html<String>, St
             ]
         ))
 
-        // Second row with payment activity taking full width
+        // Lightning Network Activity as metric cards
         div class="card" {
             h2 { "Lightning Network Activity" }
-            div class="grid" style="margin-top: 1rem;" {
-                (usage_metrics_card(
-                    "Lightning Network",
-                    vec![
-                        ("24h Inflow", format_sats_as_btc(metrics.lightning_inflow_24h)),
-                        ("24h Outflow", format_sats_as_btc(metrics.lightning_outflow_24h)),
-                        ("All-time Inflow", format_sats_as_btc(metrics.lightning_inflow_all_time)),
-                        ("All-time Outflow", format_sats_as_btc(metrics.lightning_outflow_all_time)),
-                    ]
-                ))
-                (usage_metrics_card(
-                    "On-chain",
-                    vec![
-                        ("24h Inflow", format_sats_as_btc(metrics.onchain_inflow_24h)),
-                        ("24h Outflow", format_sats_as_btc(metrics.onchain_outflow_24h)),
-                        ("All-time Inflow", format_sats_as_btc(metrics.onchain_inflow_all_time)),
-                        ("All-time Outflow", format_sats_as_btc(metrics.onchain_outflow_all_time)),
-                    ]
-                ))
+            div class="metrics-container" {
+                div class="metric-card" {
+                    div class="metric-value" { (format_sats_as_btc(metrics.lightning_inflow_24h)) }
+                    div class="metric-label" { "24h LN Inflow" }
+                }
+                div class="metric-card" {
+                    div class="metric-value" { (format_sats_as_btc(metrics.lightning_outflow_24h)) }
+                    div class="metric-label" { "24h LN Outflow" }
+                }
+                div class="metric-card" {
+                    div class="metric-value" { (format_sats_as_btc(metrics.lightning_inflow_all_time)) }
+                    div class="metric-label" { "All-time LN Inflow" }
+                }
+                div class="metric-card" {
+                    div class="metric-value" { (format_sats_as_btc(metrics.lightning_outflow_all_time)) }
+                    div class="metric-label" { "All-time LN Outflow" }
+                }
+            }
+        }
+
+        // On-chain Activity as metric cards
+        div class="card" {
+            h2 { "On-chain Activity" }
+            div class="metrics-container" {
+                div class="metric-card" {
+                    div class="metric-value" { (format_sats_as_btc(metrics.onchain_inflow_24h)) }
+                    div class="metric-label" { "24h On-chain Inflow" }
+                }
+                div class="metric-card" {
+                    div class="metric-value" { (format_sats_as_btc(metrics.onchain_outflow_24h)) }
+                    div class="metric-label" { "24h On-chain Outflow" }
+                }
+                div class="metric-card" {
+                    div class="metric-value" { (format_sats_as_btc(metrics.onchain_inflow_all_time)) }
+                    div class="metric-label" { "All-time On-chain Inflow" }
+                }
+                div class="metric-card" {
+                    div class="metric-value" { (format_sats_as_btc(metrics.onchain_outflow_all_time)) }
+                    div class="metric-label" { "All-time On-chain Outflow" }
+                }
             }
             div style="margin-top: 1rem; text-align: center;" {
                 a href="/payments" {
