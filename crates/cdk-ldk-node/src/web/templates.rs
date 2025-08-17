@@ -583,6 +583,8 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                         color: var(--fg-primary);
                         text-align: right;
                         word-break: break-all;
+                        overflow-wrap: break-word;
+                        hyphens: auto;
                         min-width: 0;
                     }
                     
@@ -1292,7 +1294,7 @@ pub fn info_card_with_copy(title: &str, items: Vec<(&str, String)>) -> Markup {
                 div class="info-item" {
                     span class="info-label" { (label) ":" }
                     @if label == "Node ID" {
-                        span class="truncate-value" title=(value) { (&value[..std::cmp::min(20, value.len())]) "..." }
+                        span class="info-value" style="word-break: break-all; font-family: monospace;" { (value) }
                         button class="copy-button" data-copy=(value) onclick="navigator.clipboard.writeText(this.getAttribute('data-copy')).then(() => { this.textContent = 'Copied!'; setTimeout(() => this.textContent = 'Copy', 2000); })" { "Copy" }
                     } @else {
                         span class="info-value" { (value) }
