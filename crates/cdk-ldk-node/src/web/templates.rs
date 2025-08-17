@@ -223,6 +223,8 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                         font-feature-settings: 'rlig' 1, 'calt' 1;
                         -webkit-font-smoothing: antialiased;
                         -moz-osx-font-smoothing: grayscale;
+                        text-rendering: geometricPrecision;
+                        min-height: 100vh;
                     }
                     
                     .container {
@@ -237,26 +239,79 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                         }
                     }
                     
+                    /* Hero section styling */
                     header {
+                        position: relative;
+                        background-image: url('/static/images/bg.jpg');
+                        background-size: cover;
+                        background-position: center;
+                        background-repeat: no-repeat;
                         border-bottom: 1px solid hsl(var(--border));
-                        background-color: hsl(var(--background));
-                        padding: 1.5rem 0;
-                        margin-bottom: 2rem;
+                        padding: 4rem 0;
+                        margin-bottom: 3rem;
+                        text-align: center;
+                    }
+                    
+                    /* Dark overlay for better text readability */
+                    header::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background: rgba(0, 0, 0, 0.4);
+                        z-index: 1;
+                    }
+                    
+                    /* Ensure text is above the overlay */
+                    header .container {
+                        position: relative;
+                        z-index: 2;
                     }
                     
                     h1 {
-                        font-size: 1.875rem;
-                        font-weight: 600;
-                        line-height: 1.25;
-                        letter-spacing: -0.025em;
-                        color: hsl(var(--foreground));
-                        margin-bottom: 0.5rem;
+                        font-size: 3rem;
+                        font-weight: 700;
+                        line-height: 1.1;
+                        letter-spacing: -0.02em;
+                        color: #ffffff;
+                        margin-bottom: 1rem;
+                        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
                     }
                     
                     .subtitle {
-                        font-size: 1rem;
-                        color: hsl(var(--muted-foreground));
+                        font-size: 1.25rem;
+                        color: #ffffff;
                         font-weight: 400;
+                        max-width: 600px;
+                        margin: 0 auto;
+                        line-height: 1.6;
+                        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+                    }
+                    
+                    @media (max-width: 768px) {
+                        header {
+                            padding: 3rem 0;
+                        }
+                        
+                        h1 {
+                            font-size: 2.25rem;
+                        }
+                        
+                        .subtitle {
+                            font-size: 1.1rem;
+                        }
+                    }
+                    
+                    /* Card fade-in animation */
+                    @keyframes fade-in {
+                        from { opacity: 0; transform: translateY(10px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+                    
+                    .card {
+                        animation: fade-in 0.3s ease-out;
                     }
                     
                     /* Modern Navigation Bar Styling */
