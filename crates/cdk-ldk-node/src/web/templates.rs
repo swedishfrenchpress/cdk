@@ -387,6 +387,38 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
                     }
                     
+                    /* Metric cards styling - matching balance-item style */
+                    .metrics-container {
+                        display: flex;
+                        gap: 1rem;
+                        margin: 1rem 0;
+                        flex-wrap: wrap;
+                    }
+                    
+                    .metric-card {
+                        flex: 1;
+                        min-width: 200px;
+                        text-align: center;
+                        padding: 1rem;
+                        background-color: hsl(var(--muted) / 0.3);
+                        border-radius: calc(var(--radius) - 2px);
+                        border: 1px solid hsl(var(--border));
+                    }
+                    
+                    .metric-value {
+                        font-size: 1.5rem;
+                        font-weight: 600;
+                        color: hsl(var(--foreground));
+                        margin-bottom: 0.5rem;
+                        line-height: 1.2;
+                    }
+                    
+                    .metric-label {
+                        font-size: 0.875rem;
+                        color: hsl(var(--muted-foreground));
+                        font-weight: 400;
+                    }
+                    
                     .card h2,
                     .section-title,
                     h2 {

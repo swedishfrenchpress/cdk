@@ -256,29 +256,40 @@ pub async fn dashboard(State(state): State<AppState>) -> Result<Html<String>, St
             }
         }
 
-        // Node info and balance in grid layout
-        div class="grid" {
-            (info_card_with_copy(
-                "Node Information",
-                vec![
-                    ("Node ID", node_id),
-                    ("Alias", alias),
-                    ("Listening Addresses", listening_addresses.join(", ")),
-                    ("Connected Peers", format!("{num_connected_peers} / {num_peers}")),
-                    ("Active Channels", format!("{} / {}", num_active_channels, num_active_channels + num_inactive_channels)),
-                ]
-            ))
-
-            (balance_card(
-                "Balance Summary",
-                vec![
-                    ("Total Lightning Balance", format_sats_as_btc(balances.total_lightning_balance_sats)),
-                    ("Total On-chain Balance", format_sats_as_btc(balances.total_onchain_balance_sats)),
-                    ("Spendable On-chain Balance", format_sats_as_btc(balances.spendable_onchain_balance_sats)),
-                    ("Combined Total", format_sats_as_btc(balances.total_lightning_balance_sats + balances.total_onchain_balance_sats)),
-                ]
-            ))
+        // Balance Summary as metric cards
+        div class="card" {
+            h2 { "Balance Summary" }
+            div class="metrics-container" {
+                div class="metric-card" {
+                    div class="metric-value" { (format_sats_as_btc(balances.total_lightning_balance_sats)) }
+                    div class="metric-label" { "Lightning Balance" }
+                }
+                div class="metric-card" {
+                    div class="metric-value" { (format_sats_as_btc(balances.total_onchain_balance_sats)) }
+                    div class="metric-label" { "On-chain Balance" }
+                }
+                div class="metric-card" {
+                    div class="metric-value" { (format_sats_as_btc(balances.spendable_onchain_balance_sats)) }
+                    div class="metric-label" { "Spendable Balance" }
+                }
+                div class="metric-card" {
+                    div class="metric-value" { (format_sats_as_btc(balances.total_lightning_balance_sats + balances.total_onchain_balance_sats)) }
+                    div class="metric-label" { "Combined Total" }
+                }
+            }
         }
+
+        // Node Information - full width
+        (info_card_with_copy(
+            "Node Information",
+            vec![
+                ("Node ID", node_id),
+                ("Alias", alias),
+                ("Listening Addresses", listening_addresses.join(", ")),
+                ("Connected Peers", format!("{num_connected_peers} / {num_peers}")),
+                ("Active Channels", format!("{} / {}", num_active_channels, num_active_channels + num_inactive_channels)),
+            ]
+        ))
 
         // Second row with payment activity taking full width
         div class="card" {
