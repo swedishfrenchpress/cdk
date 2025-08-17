@@ -159,6 +159,7 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                 meta charset="utf-8";
                 meta name="viewport" content="width=device-width, initial-scale=1";
                 link rel="icon" type="image/svg+xml" href="/static/favicon.svg";
+                link rel="stylesheet" type="text/css" href="/static/css/globe.css";
                 title { (title) " - CDK LDK Node" }
                 style {
                     "
@@ -1245,6 +1246,9 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                         color: var(--fg-primary);
                         margin: 0 0 0.25rem 0;
                         line-height: var(--lh-tight);
+                        word-wrap: break-word;
+                        overflow-wrap: break-word;
+                        hyphens: auto;
                     }
                     
                     .node-address {
@@ -1259,25 +1263,32 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                         border: 1px solid hsl(var(--border));
                         border-radius: var(--radius);
                         min-height: 200px;
-                        padding: 1.5rem;
+                        padding: 1rem;
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         color: hsl(var(--muted-foreground));
+                        overflow: hidden;
                     }
                     
                     .node-metrics {
                         flex-shrink: 0;
                         width: 280px;
+                        display: flex;
+                        flex-direction: column;
                     }
                     
                     .node-metrics .card {
                         margin-bottom: 0;
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
                     }
                     
                     .node-metrics .metrics-container {
                         flex-direction: column;
                         margin: 1rem 0 0 0;
+                        flex: 1;
                     }
                     
                     .node-metrics .metric-card {
@@ -1344,7 +1355,10 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                         }
                         
                         .node-name {
-                            font-size: 1.125rem;
+                            font-size: 1rem;
+                            word-wrap: break-word;
+                            overflow-wrap: break-word;
+                            hyphens: auto;
                         }
                         
                         .node-address {
@@ -1366,6 +1380,16 @@ pub fn layout(title: &str, content: Markup) -> Markup {
                     @media (max-width: 640px) {
                         :root {
                             --fs-value: 1.45rem;
+                        }
+                        
+                        .node-name {
+                            font-size: 0.875rem;
+                        }
+                    }
+                    
+                    @media (max-width: 480px) {
+                        .node-name {
+                            font-size: 0.8125rem;
                         }
                     }
                     "
